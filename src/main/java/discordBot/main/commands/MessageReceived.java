@@ -30,21 +30,22 @@ public class MessageReceived {
 
     public void messageReceivedHandler() {
     //makes bot unable to respond to its own message
-        if(!thisUser.isBot())
-
-    {
+        if(!thisUser.isBot()) {
         //Admin only commands.
         if (handler.checkRole(roles, "admin")) {
             commands.serverAdmin(thisUser, thisMsg, thisChannel);
         }
         //Example of Role specific serverWide
-        if (handler.checkRole(roles, "ExampleRole")) {
+        else if (handler.checkRole(roles, "ExampleRole")) {
             //serverWide(thisUser, thisMsg, thisChannel);
         }
         //for input serverWide in a specific channel in this case "input-channel"
-        if (handler.checkChannel(thisChannel, "input-channel")) {
+        else if (handler.checkChannel(thisChannel, "input-channel")) {
             commands.serverWide(thisUser, thisMsg, thisChannel);
+        }else {
+            thisChannel.sendMessage("input invalid").queue();
         }
+
     }
 }
 }

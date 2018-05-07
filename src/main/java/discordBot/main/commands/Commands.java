@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 
 public class Commands {
-    public void serverAdmin(User objUser, Message objMsg, MessageChannel objChannel) {
+    public void serverAdmin(User user, Message objMsg, MessageChannel objChannel) {
         //prints out all the channels available
         if (objMsg.getContentRaw().equalsIgnoreCase(".ShowAllChannels")) {
             StringBuilder s = new StringBuilder();
@@ -16,10 +16,9 @@ public class Commands {
             objChannel.sendMessage(s).queue();
         }
         //tests printing in another channel
-        System.out.println("Server Wide exists!");
         if (objMsg.getContentRaw().equalsIgnoreCase(".printIn")) {
-            App.textChannels.get(4).sendMessage("Print Test!").queue();
-            System.out.println(objUser.getName());
+            App.textChannels.get(4).sendMessage("printing in another channel!").queue();
+
         }
     }
     public void serverWide(User user, Message msg, MessageChannel channel) {
@@ -28,8 +27,6 @@ public class Commands {
 
         if (msg.getContentRaw().equalsIgnoreCase(".hello")) {
             channel.sendMessage("Hello, " + user.getAsMention() + "!").queue();
-        } else {
-            channel.sendMessage("input invalid").queue();
         }
 
         //this prints out server wide commands

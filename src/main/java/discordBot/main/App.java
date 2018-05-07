@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class App extends ListenerAdapter {
     public static ArrayList<TextChannel> textChannels = new ArrayList<TextChannel>();
     private static TokenUtil tokenUtil = new TokenUtil();
+    public String prefix = ".";
     public static void main(String[] args) throws LoginException, IllegalArgumentException, InterruptedException    {
 
         //Initializes the bot
