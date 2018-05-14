@@ -28,7 +28,7 @@ public class App extends ListenerAdapter {
     }
     @Override
     public void onMessageReceived(MessageReceivedEvent messageEvent) {
-        new MessageReceived(messageEvent,this).messageReceivedHandler();
+        new MessageReceived(messageEvent).messageReceivedHandler();
     }
 
 }

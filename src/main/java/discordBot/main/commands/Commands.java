@@ -1,14 +1,13 @@
 package discordBot.main.commands;
 
 import discordBot.main.App;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 
-public class Commands {
-    public void serverAdmin(User user, Message objMsg, MessageChannel objChannel) {
+class Commands {
+    private String preFix = ".";
+    void serverAdmin(User user, Message objMsg, MessageChannel objChannel, MessageEmbed[] objImage) {
         //prints out all the channels available
-        if (objMsg.getContentRaw().equalsIgnoreCase(".ShowAllChannels")) {
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "ShowAllChannels")) {
             StringBuilder s = new StringBuilder();
             for (int i = 0; i < discordBot.main.App.textChannels.size(); i++) {
                 s.append(i).append(".  ").append(App.textChannels.get(i).toString()).append("\r\n");
@@ -16,30 +15,46 @@ public class Commands {
             objChannel.sendMessage(s).queue();
         }
         //tests printing in another channel
-        if (objMsg.getContentRaw().equalsIgnoreCase(".printIn")) {
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "printIn")) {
             App.textChannels.get(4).sendMessage("printing in another channel!").queue();
 
         }
+        //Splits the command at spaces
+        String[] stringInput = objMsg.getContentRaw().split(" ");
+        if (stringInput[0].equalsIgnoreCase(preFix + "SaveImage") && stringInput[1] != null && objImage != null) {
+            //do things
+            //objImage.
+        }
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
+            int rollValue = (int) Math.floor(Math.random() * 5);
+            objChannel.sendMessage("You rolled "+rollValue+"!").queue();
+        }
     }
-    public void serverWide(User user, Message msg, MessageChannel channel) {
+    void nonAdmin(User user, Message objMsg, MessageChannel objChannel) {
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
+            int rollValue = (int) Math.floor(Math.random() * 100);
+            objChannel.sendMessage("You rolled "+rollValue+"!").queue();
+        }
+    }
+    void serverWide(User user, Message msg, MessageChannel channel) {
         String[] commands = {" ", " ", "input-channel"};
 
 
-        if (msg.getContentRaw().equalsIgnoreCase(".hello")) {
+        if (msg.getContentRaw().equalsIgnoreCase(preFix+"hello")) {
             channel.sendMessage("Hello, " + user.getAsMention() + "!").queue();
         }
 
         //this prints out server wide commands
-        if (msg.getContentRaw().equalsIgnoreCase(".Commands")) {
+        if (msg.getContentRaw().equalsIgnoreCase(preFix+"Commands")) {
             StringBuilder s = new StringBuilder();
             s.append("```");
-            for (int i = 0; i < commands.length; i++) {
-                s.append(commands[i]).append("\r\n");
+            for (String command : commands) {
+                s.append(command).append("\r\n");
             }
-            s.append("\r\n For TokenUtil specific ```");
+            s.append("\r\n For channel specific ```");
             channel.sendMessage(s).queue();
         }
-        if (msg.getContentRaw().equalsIgnoreCase(commands[1])) {
+        if (msg.getContentRaw().equalsIgnoreCase(preFix+commands[1])) {
             channel.sendMessage(channel.getName()).queue();
         }
     }
