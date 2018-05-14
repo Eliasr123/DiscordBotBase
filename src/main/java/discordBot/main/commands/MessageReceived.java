@@ -1,39 +1,44 @@
 package discordBot.main.commands;
-import discordBot.main.App;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
 public class MessageReceived {
-    Commands commands = new Commands();
-    Handler handler = new Handler();
-    //main
-    private App main;
+    private Commands commands = new Commands();
+    private Handler handler = new Handler();
     //Obtains properties of the received message
     private Message thisMsg;
     private MessageChannel thisChannel;
     private User thisUser;
+    private MessageEmbed thisImage[];
     // gets a list of all the roles that user has
     private List<Role> roles;
 
-    public MessageReceived(MessageReceivedEvent messageEvent, App main) {
+    /**
+     * Gets all necessary info for handling a input
+     * @param messageEvent this is the last inputted message
+     */
+    public MessageReceived(MessageReceivedEvent messageEvent) {
         thisMsg = messageEvent.getMessage();
         thisChannel = messageEvent.getChannel();
         thisUser = messageEvent.getAuthor();
         roles = messageEvent.getGuild().getMember(thisUser).getRoles();
-        this.main = main;
-    }
+        thisImage = messageEvent.getMessage().getEmbeds().toArray(new MessageEmbed[0]);
 
+    }
+    /**
+     *Checks if anything is needed for certain commands to trigger
+     *  */
     public void messageReceivedHandler() {
     //makes bot unable to respond to its own message
         if(!thisUser.isBot()) {
         //Admin only commands.
         if (handler.checkRole(roles, "admin")) {
-            commands.serverAdmin(thisUser, thisMsg, thisChannel);
+            commands.serverAdmin(thisUser, thisMsg, thisChannel,thisImage);
+        }
+        else if (!handler.checkRole(roles,"admin")) {
+            commands.nonAdmin(thisUser,thisMsg,thisChannel);
         }
         //Example of Role specific serverWide
         else if (handler.checkRole(roles, "ExampleRole")) {
