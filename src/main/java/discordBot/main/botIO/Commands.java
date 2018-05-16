@@ -1,4 +1,4 @@
-package discordBot.main.commands;
+package discordBot.main.botIO;
 
 import discordBot.main.App;
 import net.dv8tion.jda.core.entities.Message;
@@ -29,7 +29,7 @@ public class Commands {
             channel.sendMessage("Hello, " + user.getAsMention() + "!").queue();
         }
 
-        //this prints out server wide commands
+        //this prints out server wide botIO
         if (msg.getContentRaw().equalsIgnoreCase(".Commands")) {
             StringBuilder s = new StringBuilder();
             s.append("```");

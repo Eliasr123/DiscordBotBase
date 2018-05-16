@@ -3,7 +3,7 @@
 package discordBot.main;
 import javax.security.auth.login.LoginException;
 
-import discordBot.main.commands.MessageReceived;
+import discordBot.main.botIO.MessageReceived;
 import discordBot.tokenUtil.TokenUtil;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -23,7 +23,7 @@ public class App extends ListenerAdapter {
         //Initializes the bot
         JDA jdaBot = new JDABuilder(AccountType.BOT).setToken(tokenUtil.loadToken()).buildBlocking();
         jdaBot.addEventListener(new App());
-        jdaBot.getPresence().setGame(Game.of(Game.GameType.DEFAULT ,"for available commands do .Commands"));
+        jdaBot.getPresence().setGame(Game.of(Game.GameType.DEFAULT ,"for available botIO do .Commands"));
         textChannels.addAll(jdaBot.getTextChannels());
     }
     @Override
