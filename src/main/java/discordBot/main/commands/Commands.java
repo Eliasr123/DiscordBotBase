@@ -1,11 +1,17 @@
 package discordBot.main.commands;
 
 import discordBot.main.App;
+import discordBot.main.FileUtil.Attachments;
 import net.dv8tion.jda.core.entities.*;
+
+import java.io.File;
 
 class Commands {
     private String preFix = ".";
-    void serverAdmin(User user, Message objMsg, MessageChannel objChannel, MessageEmbed[] objImage) {
+    void serverAdmin(User user, Message objMsg, MessageChannel objChannel) {
+        //Splits the command at spaces
+        String[] stringInput = objMsg.getContentRaw().split(" ");
+
         //prints out all the channels available
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "ShowAllChannels")) {
             StringBuilder s = new StringBuilder();
@@ -19,17 +25,22 @@ class Commands {
             App.textChannels.get(4).sendMessage("printing in another channel!").queue();
 
         }
-        //Splits the command at spaces
-        String[] stringInput = objMsg.getContentRaw().split(" ");
-        if (stringInput[0].equalsIgnoreCase(preFix + "SaveImage") && stringInput[1] != null && objImage != null) {
-            //do things
-            //objImage.
-        }
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
             int rollValue = (int) Math.floor(Math.random() * 5);
             objChannel.sendMessage("You rolled "+rollValue+"!").queue();
         }
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "image")) {
+                boolean b = Attachments.download(objMsg, true,"/ImagesDownloaded");
+                if (b) {
+                    objChannel.sendMessage("Saving worked! file has been saved!").queue();
+                } else {
+                    objChannel.sendMessage("Saving failed or something went wrong!").queue();
+                }
+        } else {
+                objChannel.sendMessage("Filename missing or invalid!").queue();
+        }
     }
+
     void nonAdmin(User user, Message objMsg, MessageChannel objChannel) {
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
             int rollValue = (int) Math.floor(Math.random() * 100);

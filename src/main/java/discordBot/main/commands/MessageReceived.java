@@ -11,7 +11,6 @@ public class MessageReceived {
     private Message thisMsg;
     private MessageChannel thisChannel;
     private User thisUser;
-    private MessageEmbed thisImage[];
     // gets a list of all the roles that user has
     private List<Role> roles;
 
@@ -24,8 +23,6 @@ public class MessageReceived {
         thisChannel = messageEvent.getChannel();
         thisUser = messageEvent.getAuthor();
         roles = messageEvent.getGuild().getMember(thisUser).getRoles();
-        thisImage = messageEvent.getMessage().getEmbeds().toArray(new MessageEmbed[0]);
-
     }
     /**
      *Checks if anything is needed for certain commands to trigger
@@ -35,7 +32,7 @@ public class MessageReceived {
         if(!thisUser.isBot()) {
         //Admin only commands.
         if (handler.checkRole(roles, "admin")) {
-            commands.serverAdmin(thisUser, thisMsg, thisChannel,thisImage);
+            commands.serverAdmin(thisUser, thisMsg, thisChannel);
         }
         else if (!handler.checkRole(roles,"admin")) {
             commands.nonAdmin(thisUser,thisMsg,thisChannel);
