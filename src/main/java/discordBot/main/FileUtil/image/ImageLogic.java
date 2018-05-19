@@ -17,7 +17,7 @@ public class ImageLogic {
      */
     public void compareImage(MessageChannel objChannel,Message message, File filePath) {
         BufferedImage ref = fileManager.load(filePath);
-        //BufferedImage saber = fileManager.load();
+        BufferedImage saber = fileManager.load(filePath);
         BufferedImage[] refs = loadCompareRefs();
 
 
