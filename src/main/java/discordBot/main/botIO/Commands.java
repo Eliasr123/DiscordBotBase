@@ -31,10 +31,6 @@ class Commands {
             App.textChannels.get(4).sendMessage("printing in another channel!").queue();
 
         }
-        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
-            int rollValue = (int) Math.floor(Math.random() * 5);
-            objChannel.sendMessage("You rolled "+rollValue+"!").queue();
-        }
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "image")) {
                 boolean b = Attachments.download(objMsg, true,"ImagesDownloaded/");
                 if (b) {
@@ -46,6 +42,7 @@ class Commands {
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "sendTestImage")) {
             objChannel.sendFile(new File("ImagesDownloaded/test.png")).queue();
         }
+
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare")) {
             BufferedImage ref = fileManager.load("ref.png");
             BufferedImage saber = fileManager.load("test.png");
@@ -61,31 +58,44 @@ class Commands {
     }
 
     void nonAdmin(User user, Message objMsg, MessageChannel objChannel) {
-        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
-            int rollValue = (int) Math.floor(Math.random() * 100);
+
+    }
+    void serverWide(User objUser, Message objMsg, MessageChannel objChannel) {
+        String[] commands = {" ", " ", "input-channel"};
+        if (objMsg.getContentRaw().contains(" ")) {
+            String[] rollInput = objMsg.getContentRaw().split(" ");
+            if (rollInput[0].equalsIgnoreCase(preFix + "roll") && rollInput[1] != null) {
+                int rollValue = (int) Math.floor(Math.random() * Double.parseDouble(rollInput[1]))+1;
+                if (rollValue == 0) {
+                    rollValue +=1;
+                }
+                objChannel.sendMessage("you rolled " + rollValue + "!").queue();
+            }
+        } else if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "roll")) {
+            int rollValue = (int) Math.floor(Math.random() * 99);
+            rollValue +=1;
             objChannel.sendMessage("You rolled "+rollValue+"!").queue();
         }
-    }
-    void serverWide(User user, Message msg, MessageChannel channel) {
-        String[] commands = {" ", " ", "input-channel"};
 
-
-        if (msg.getContentRaw().equalsIgnoreCase(preFix+"hello")) {
-            channel.sendMessage("Hello, " + user.getAsMention() + "!").queue();
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"hello")) {
+            objChannel.sendMessage("Hello, " + objUser.getAsMention() + "!").queue();
         }
 
         //this prints out server wide commands
-        if (msg.getContentRaw().equalsIgnoreCase(preFix+"Commands")) {
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"Commands")) {
             StringBuilder s = new StringBuilder();
             s.append("```");
             for (String command : commands) {
                 s.append(command).append("\r\n");
             }
             s.append("\r\n For channel specific ```");
-            channel.sendMessage(s).queue();
+            objChannel.sendMessage(s).queue();
         }
-        if (msg.getContentRaw().equalsIgnoreCase(preFix+commands[1])) {
-            channel.sendMessage(channel.getName()).queue();
+        if (objMsg.getContentRaw().equalsIgnoreCase(preFix+commands[1])) {
+            objChannel.sendMessage(objChannel.getName()).queue();
+        }
+        if (objMsg.getContentRaw().startsWith("REE")) {
+            objChannel.sendFile(new File("ImagesDownloaded/REE.gif")).queue();
         }
     }
 }
