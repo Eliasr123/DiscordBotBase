@@ -4,12 +4,14 @@ import discordBot.main.FileUtil.FileManager;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ImageLogic {
-    private static FileManager fileManager = new FileManager();
+    public static FileManager fileManager = new FileManager();
 
     /**
      *
@@ -21,11 +23,11 @@ public class ImageLogic {
         BufferedImage[] refs = loadCompareRefs();
 
 
-        objChannel.sendMessage("Match position " + Arrays.toString(Compare.findSubImage(ref,saber))).queue();
-        objChannel.sendMessage("Match " + Compare.findSubImageD(ref,saber) + "%").queue();
+        objChannel.sendMessage("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber))).queue();
+        objChannel.sendMessage("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%").queue();
 
-        objChannel.sendMessage("Match position " + Arrays.toString(Compare.findSubImage(ref,saber))).queue();
-        objChannel.sendMessage("Match " + Compare.findSubImageD(ref,saber) + "%").queue();
+        objChannel.sendMessage("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber))).queue();
+        objChannel.sendMessage("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%").queue();
     }
     public void compareImageTest(File filePath,File filePath1) {
         BufferedImage ref = fileManager.load(filePath);
@@ -33,8 +35,8 @@ public class ImageLogic {
         //BufferedImage[] refs = loadCompareRefs();
 
 
-        System.out.println("Match position " + Arrays.toString(Compare.findSubImage(ref,saber)));
-        //System.out.println("Match " + Compare.findSubImageD(ref,saber) + "%");
+        System.out.println("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber)));
+        //System.out.println("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%");
 
     }
     private BufferedImage[] loadCompareRefs() {
@@ -43,5 +45,44 @@ public class ImageLogic {
             imageArray[i] = fileManager.load(new File("ImagesDownloaded/Refs/item"+i+".png"));
         }
         return imageArray;
+    }
+    public void createSubImages(BufferedImage bigImage) {
+        // use the Border.png to find the first border.
+        BufferedImage border = fileManager.load(new File("Resources/Border/Border.png"));
+        int[] coordinates = Compare.findSubimage(bigImage, border);
+        System.out.println(coordinates[0] + " - " + coordinates[1]);
+
+        // use IMAGE_CONSTANTS.IMAGE_WIDTH and IMAGE_CONSTANTS.IMAGE_HEIGHT to cut out
+        // the image.
+
+
+        // do this for all images.
+        // after the first image, there are 4 rows down at 100 pixels lower than the previous.
+        // after the first image, there are 6 colums to the right, at 58 pixels difference
+        // after the 6th image, there is a gap of 90 before the above statement is repeated.
+        int counter = 0;
+        for(int rows = 0; rows < 3; rows++) {
+            for(int columns = 0; columns < 12; columns++) {
+                counter++;
+                BufferedImage subImage = bigImage.getSubimage(columns<6?coordinates[0]+(columns*58):coordinates[0]+32+(columns*58), coordinates[1]+(rows*100) ,48, 48);
+
+                if (counter == 5) {
+                    try {
+                        ImageIO.write(subImage, "png", new File(String.format("resources/Output/row%scolum%s.png", rows, columns)));
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    counter = -1;
+                }
+                if (rows== 2 && columns ==7) {
+                    break;
+                }
+            }
+        }
+
+
+
+        // write the subimages to disk, this should create 42 images.
     }
 }
