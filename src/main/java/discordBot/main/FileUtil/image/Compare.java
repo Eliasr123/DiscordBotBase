@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class Compare {
-    private static final Object IMAGE_CONSTANTS = 48;
 
     /**
      * Finds the a region in one image that best matches another, smaller, image.
