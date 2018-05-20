@@ -2,8 +2,9 @@ package discordBot.main.botIO;
 
 import discordBot.main.App;
 import discordBot.main.FileUtil.Attachments;
-import discordBot.main.FileUtil.Compare;
+import discordBot.main.FileUtil.image.Compare;
 import discordBot.main.FileUtil.FileManager;
+import discordBot.main.FileUtil.image.ImageLogic;
 import net.dv8tion.jda.core.entities.*;
 
 import java.awt.image.BufferedImage;
@@ -11,7 +12,8 @@ import java.io.File;
 import java.util.Arrays;
 
 class Commands {
-    private static FileManager fileManager = new FileManager();
+    ImageLogic imageLogic = new ImageLogic();
+    Attachments attachments = new Attachments();
 
     private String preFix = ".";
     void serverAdmin(User user, Message objMsg, MessageChannel objChannel) {
@@ -31,29 +33,23 @@ class Commands {
             App.textChannels.get(4).sendMessage("printing in another channel!").queue();
 
         }
-        if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "image")) {
+      /*  if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "image")) {
                 boolean b = Attachments.download(objMsg, true,"ImagesDownloaded/");
                 if (b) {
                     objChannel.sendMessage("Saving worked! file has been saved!").queue();
                 } else {
                     objChannel.sendMessage("Saving failed or something went wrong!").queue();
                 }
-        }
+        }*/
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "sendTestImage")) {
             objChannel.sendFile(new File("ImagesDownloaded/test.png")).queue();
         }
 
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare")) {
-            BufferedImage ref = fileManager.load("ref.png");
-            BufferedImage saber = fileManager.load("test.png");
-            objChannel.sendMessage("Match position " + Arrays.toString(Compare.findSubImage(ref,saber))).queue();
-            objChannel.sendMessage("Match " + Compare.findSubImageD(ref,saber) + "%").queue();
+            imageLogic.compareImage(objChannel,objMsg,attachments.download(objMsg,true,"ImagesDownloaded/"));
         }
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare1")) {
-            BufferedImage ref = fileManager.load("ref.png");
-            BufferedImage saber = fileManager.load("ref.png");
-            objChannel.sendMessage("Match position " + Arrays.toString(Compare.findSubImage(ref,saber))).queue();
-            objChannel.sendMessage("Match " + Compare.findSubImageD(ref,saber) + "%").queue();
+
         }
     }
 

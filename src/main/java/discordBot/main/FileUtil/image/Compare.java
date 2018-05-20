@@ -1,4 +1,4 @@
-package discordBot.main.FileUtil;
+package discordBot.main.FileUtil.image;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,22 +10,22 @@ public class Compare {
     /**
      * Finds the a region in one image that best matches another, smaller, image.
      */
-    public static double findSubImageD(BufferedImage im1, BufferedImage im2){
-        int w1 = im1.getWidth(); int h1 = im1.getHeight();
-        int w2 = im2.getWidth(); int h2 = im2.getHeight();
-        assert(w2 <= w1 && h2 <= h1);
+    public static double findSubImageD(BufferedImage imageOne, BufferedImage imageTwo){
+        int w1 = imageOne.getWidth(); int height = imageOne.getHeight();
+        int w2 = imageTwo.getWidth(); int h2 = imageTwo.getHeight();
+        assert(w2 <= w1 && h2 <= height);
         // will keep track of best position found
         double lowestDiff = 0;
         // brute-force search through whole image (slow...)
         for(int x = 0;x < w1-w2;x++){
-            for(int y = 0;y < h1-h2;y++){
-                double comp = compareImages(im1.getSubimage(x,y,w2,h2),im2);
+            for(int y = 0;y < height-h2;y++){
+                double comp = compareImages(imageOne.getSubimage(x,y,w2,h2),imageTwo);
                 if(comp < lowestDiff){
                     lowestDiff = comp;
                 }
             }
         }
-        if (w1-w2 == 0 && h1-h2 == 0) {
+        if (w1-w2 == 0 && height-h2 == 0) {
             return 100;
         }
         // return best location
