@@ -21,6 +21,6 @@ public class CropImage {
 
     }
     public int[] findRelativePos() {
-
+        return null;
     }
 }
