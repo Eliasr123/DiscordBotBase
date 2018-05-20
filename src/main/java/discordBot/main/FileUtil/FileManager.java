@@ -9,7 +9,7 @@ public class FileManager {
     public BufferedImage load(File filename) {
         try {
             System.out.println("Loading succeeded");
-           return ImageIO.read(new File("ImagesDownloaded/"+ filename));
+           return ImageIO.read(filename);
         } catch (IOException e) {
             System.out.println("Image Load Failed!");
         }
