@@ -20,4 +20,7 @@ public class CropImage {
         return image.getSubimage(x, y, w, h);
 
     }
+    public int[] findRelativePos() {
+
+    }
 }
