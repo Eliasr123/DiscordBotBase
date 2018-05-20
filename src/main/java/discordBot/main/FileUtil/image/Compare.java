@@ -5,12 +5,15 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
+import java.io.IOException;
 
 public class Compare {
+    private static final Object IMAGE_CONSTANTS = 48;
+
     /**
      * Finds the a region in one image that best matches another, smaller, image.
      */
-    public static double findSubImageD(BufferedImage imageOne, BufferedImage imageTwo){
+    public static double compareTwoImagesDouble(BufferedImage imageOne, BufferedImage imageTwo){
         int w1 = imageOne.getWidth(); int height = imageOne.getHeight();
         int w2 = imageTwo.getWidth(); int h2 = imageTwo.getHeight();
         assert(w2 <= w1 && h2 <= height);
@@ -34,7 +37,7 @@ public class Compare {
     /**
      * Finds the a region in one image that best matches another, smaller, image.
      */
-    public static int[] findSubImage(BufferedImage im1, BufferedImage im2){
+    public static int[] compareTwoImages(BufferedImage im1, BufferedImage im2){
         int w1 = im1.getWidth(); int h1 = im1.getHeight();
         int w2 = im2.getWidth(); int h2 = im2.getHeight();
         assert(w2 <= w1 && h2 <= h1);
@@ -80,4 +83,42 @@ public class Compare {
         // if there is transparency, the alpha values will make difference smaller
         return a1*a2*Math.sqrt((r1-r2)*(r1-r2) + (g1-g2)*(g1-g2) + (b1-b2)*(b1-b2));
     }
+
+    /**
+     * Finds the a region in one image that best matches another, smaller, image.
+     */
+    public static int[] findSubimage(BufferedImage im1, BufferedImage im2) {
+        int w1 = im1.getWidth();
+        int h1 = im1.getHeight();
+        int w2 = im2.getWidth();
+        int h2 = im2.getHeight();
+        assert (w2 <= w1 && h2 <= h1);
+        // will keep track of best position found
+        int bestX = 0;
+        int bestY = 0;
+        double lowestDiff = Double.POSITIVE_INFINITY;
+        // brute-force search through whole image (slow...)
+        outerLoop:
+        for (int x = 0; x < w1 - w2; x++) {
+            for (int y = 0; y < h1 - h2; y++) {
+                double comp = compareImages(im1.getSubimage(x, y, w2, h2), im2);
+                if (comp < lowestDiff) {
+                    bestX = x;
+                    bestY = y;
+                    lowestDiff = comp;
+
+                    if(lowestDiff < 0.01)
+                    {
+                        System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
+                        break outerLoop;
+                    }
+                }
+            }
+        }
+        // output similarity measure from 0 to 1, with 0 being identical
+        System.out.println(lowestDiff);
+        // return best location
+        return new int[] { bestX, bestY };
+    }
+
 }
