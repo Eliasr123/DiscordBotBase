@@ -27,6 +27,16 @@ public class ImageLogic {
         objChannel.sendMessage("Match position " + Arrays.toString(Compare.findSubImage(ref,saber))).queue();
         objChannel.sendMessage("Match " + Compare.findSubImageD(ref,saber) + "%").queue();
     }
+    public void compareImageTest(File filePath,File filePath1) {
+        BufferedImage ref = fileManager.load(filePath);
+        BufferedImage saber = fileManager.load(filePath1);
+        //BufferedImage[] refs = loadCompareRefs();
+
+
+        System.out.println("Match position " + Arrays.toString(Compare.findSubImage(ref,saber)));
+        //System.out.println("Match " + Compare.findSubImageD(ref,saber) + "%");
+
+    }
     private BufferedImage[] loadCompareRefs() {
         BufferedImage[] imageArray = new BufferedImage[8];
         for (int i = 0; i < imageArray.length;i++) {
