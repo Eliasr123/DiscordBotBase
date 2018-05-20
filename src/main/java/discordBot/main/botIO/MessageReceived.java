@@ -37,6 +37,9 @@ public class MessageReceived {
         if (handler.checkRole(roles, "admin")) {
             commands.serverAdmin(thisUser, thisMsg, thisChannel);
         }
+        if (!handler.checkRole(roles,"admin")) {
+            commands.nonAdmin(thisUser,thisMsg,thisChannel);
+        }
         //Example of Role specific serverWide
         if (handler.checkRole(roles, "ExampleRole")) {
             //serverWide(thisUser, thisMsg, thisChannel);
@@ -45,6 +48,10 @@ public class MessageReceived {
         if (handler.checkChannel(thisChannel, "input-channel")) {
             commands.serverWide(thisUser, thisMsg, thisChannel);
         }
+        else {
+            commands.serverWide(thisUser,thisMsg,thisChannel);
+        }
+
     }
 }
 }
