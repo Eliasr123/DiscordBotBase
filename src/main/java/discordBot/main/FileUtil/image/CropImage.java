@@ -12,7 +12,7 @@ public class CropImage {
     private Compare compare = new Compare();
     public void createSubImages(BufferedImage bigImage) {
         // use the Border.png to find the first border.
-        BufferedImage border = ImageLogic.fileManager.load(new File("Images/Resources/Border/Border.png"));
+        BufferedImage border = ImageLogic.fileManager.load(new File("Images/Border/Border.png"));
         int[] coordinates = compare.findSubImage(bigImage, border);
         //System.out.println(coordinates[0] + " - " + coordinates[1]);
 
