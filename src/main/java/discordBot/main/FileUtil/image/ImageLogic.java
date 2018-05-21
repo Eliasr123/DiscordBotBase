@@ -15,7 +15,6 @@ public class ImageLogic {
     private Compare compare = new Compare();
 
     public void compareImage(MessageChannel objChannel,Message message) {
-        Boolean[] output = new Boolean[5];
         BufferedImage[] refs = fileManager.loadRefs(new File("Images/Downloaded/Refs/ref"));
         BufferedImage[] subImages = new BufferedImage[5];
         if (trySavingAttachment(objChannel,message)) {
@@ -23,21 +22,24 @@ public class ImageLogic {
              cropImage.createSubImages(inputImg);
              subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
          }
-        checkMatches(output,subImages,refs,0.01);
+        Boolean[] output = checkMatches(new Boolean[5],subImages,refs,0.05);
     }
     public void compareImageTest() {
-        Boolean[] output = new Boolean[5];
         BufferedImage[] refs = fileManager.loadRefs(new File("Images/Downloaded/Refs/ref"));
         BufferedImage[] subImages;
 
         BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Input/inputRef.png"));
         cropImage.createSubImages(inputImg);
         subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
-
-        checkMatches(output,subImages, refs,0.05);
+        Boolean[] output = checkMatches(new Boolean[5],subImages,refs,0.05);
+        for (int i = 0; i < 3; i++) {
+            if (output[i]) {
+                System.out.println("boolean " + i + " ist true!");
+            }
+        }
     }
 
-    private void checkMatches(Boolean[] output, BufferedImage[] subImages, BufferedImage[] refs,Double matchLimit) {
+    private Boolean[] checkMatches(Boolean[] output, BufferedImage[] subImages, BufferedImage[] refs, Double matchLimit) {
         for (int i=0; i < output.length;i++) {
             double temp = compare.findSubImageDouble(subImages[i],refs[i],matchLimit);
             if (temp < matchLimit) {
@@ -49,6 +51,7 @@ public class ImageLogic {
                 System.out.println("No Match at " +i);
             }
         }
+        return output;
     }
 
     private boolean trySavingAttachment(MessageChannel objChannel, Message objMsg) {
