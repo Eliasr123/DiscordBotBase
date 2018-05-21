@@ -40,16 +40,14 @@ public class Compare {
         // output similarity measure from 0 to 1, with 0 being identical
         System.out.println(temp[2]);
         // return best location
-        if (w1-w2 == 0 && h1-h2 == 0) {
-            return 100;
-        }
+
         return temp[2];
     }
     private double[] subImageLoop(int w1,int w2,int h1,int h2,BufferedImage im1,BufferedImage im2) {
         // will keep track of best position found
         int bestX = 0;
         int bestY = 0;
-        double lowestDiff =0;
+        double lowestDiff = Double.POSITIVE_INFINITY;
 
         // brute-force search through whole image (slow...)
         outerLoop:
@@ -63,7 +61,7 @@ public class Compare {
 
                     if(lowestDiff < 0.01)
                     {
-                        //System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
+                        System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
                         break outerLoop;
                     }
                 }
