@@ -27,11 +27,15 @@ public class ImageLogic {
              subImages = fileManager.loadRefs(new File("Images/Resources/Output/ref"));
          }
         for (int i=0; i< output.length;i++) {
+            System.out.println("Comparing...");
             double temp = compare.findSubImageDouble(refs[i],subImages[i]);
-            if (temp >= 0.01) {
+            if (temp >= 0.7) {
             System.out.println("match % "+temp);
                 output[i] = true;
                 System.out.println("Match at "+i);
+            }
+            else {
+                System.out.println("No Match at " +i);
             }
 
         }
