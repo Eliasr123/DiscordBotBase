@@ -10,13 +10,13 @@ public class Compare {
      * @param im2 Sub image, compares to image 1
      * @return returns a coordinate x and y on match or 0,0 if it can not find a match
      */
-    int[] findSubImage(BufferedImage im1, BufferedImage im2) {
+    int[] findSubImage(BufferedImage im1, BufferedImage im2,double matchLimit) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
         int w2 = im2.getWidth();
         int h2 = im2.getHeight();
         assert (w2 <= w1 && h2 <= h1);
-        double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2);
+        double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2,matchLimit);
         // output similarity measure from 0 to 1, with 0 being identical
         System.out.println(temp[2]);
         // return best location
@@ -29,21 +29,21 @@ public class Compare {
      * @param im2 Sub Image, the thing it will look for
      * @return a % value of matching
      */
-    double findSubImageDouble(BufferedImage im1, BufferedImage im2) {
+    double findSubImageDouble(BufferedImage im1, BufferedImage im2,double matchLimit) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
         int w2 = im2.getWidth();
         int h2 = im2.getHeight();
         assert (w2 <= w1 && h2 <= h1);
         // will keep track of best position found
-        double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2);
+        double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2,matchLimit);
         // output similarity measure from 0 to 1, with 0 being identical
         System.out.println(temp[2]);
         // return best location
 
         return temp[2];
     }
-    private double[] subImageLoop(int w1,int w2,int h1,int h2,BufferedImage im1,BufferedImage im2) {
+    private double[] subImageLoop(int w1,int w2,int h1,int h2,BufferedImage im1,BufferedImage im2,double matchLimit) {
         // will keep track of best position found
         int bestX = 0;
         int bestY = 0;
@@ -59,7 +59,7 @@ public class Compare {
                     bestY = y;
                     lowestDiff = comp;
 
-                    if(lowestDiff < 0.01)
+                    if(lowestDiff < matchLimit)
                     {
                         System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
                         break outerLoop;
