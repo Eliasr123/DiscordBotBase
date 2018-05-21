@@ -26,11 +26,26 @@ public class ImageLogic {
              cropImage.createSubImages(inputImg);
              subImages = fileManager.loadRefs(new File("Images/Resources/Output/ref"));
          }
+        checkMatches(output, refs, subImages);
+    }
+    public void compareImageTest() {
+        Boolean[] output = new Boolean[5];
+        BufferedImage[] refs = fileManager.loadRefs(new File("Images/Downloaded/Refs/ref"));
+        BufferedImage[] subImages;
+
+        BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Input/inputRef.png"));
+        cropImage.createSubImages(inputImg);
+        subImages = fileManager.loadRefs(new File("Images/Resources/Output/ref"));
+
+        checkMatches(output, refs, subImages);
+    }
+
+    private void checkMatches(Boolean[] output, BufferedImage[] refs, BufferedImage[] subImages) {
         for (int i=0; i< output.length;i++) {
             System.out.println("Comparing...");
             double temp = compare.findSubImageDouble(refs[i],subImages[i]);
             if (temp >= 0.7) {
-            System.out.println("match % "+temp);
+                System.out.println("match % "+temp);
                 output[i] = true;
                 System.out.println("Match at "+i);
             }
@@ -40,9 +55,10 @@ public class ImageLogic {
 
         }
     }
+
     private boolean trySavingAttachment(MessageChannel objChannel, Message objMsg) {
-        if (tryDeletingOldFile(new File("Images/Downloaded/inputRef.png"))) {
-            File b = attachments.downloadChangeName(objMsg, true, new File("Images/Downloaded/inputRef.png"));
+        if (tryDeletingOldFile(new File("Images/Downloaded/Input/inputRef.png"))) {
+            File b = attachments.downloadChangeName(objMsg, true, new File("Images/Downloaded/Input/inputRef.png"));
             if (b != null) {
                 objChannel.sendMessage("Saving worked! file has been saved!").queue();
                 return true;
