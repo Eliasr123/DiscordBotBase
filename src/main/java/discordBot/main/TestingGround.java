@@ -7,13 +7,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class TestingGround {
-    private static ImageLogic imageLogic = new ImageLogic();
     private static CropImage cropImage = new CropImage();
     public static void main(String[] args) {
-        BufferedImage ref = null;
-        ref = ImageLogic.fileManager.load(new File("Images/Downloaded/StaticRef1.png"));
-        if (ref != null) {
-            cropImage.createSubImages(ref);
+        BufferedImage inputImg = null;
+        inputImg = ImageLogic.fileManager.load(new File("Images/Downloaded/StaticRef1.png"));
+        if (inputImg != null) {
+            cropImage.createSubImages(inputImg);
         }
 
 
