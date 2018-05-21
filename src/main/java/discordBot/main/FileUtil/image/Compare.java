@@ -9,33 +9,10 @@ import java.io.IOException;
 
 public class Compare {
     /**
-     * Determines how different two identically sized regions are.
-     */
-    private static double compareImages(BufferedImage im1, BufferedImage im2){
-        assert(im1.getHeight() == im2.getHeight() && im1.getWidth() == im2.getWidth());
-        double variation = 0.0;
-        for(int x = 0;x < im1.getWidth();x++){
-            for(int y = 0;y < im1.getHeight();y++){
-                variation += compareARGB(im1.getRGB(x,y),im2.getRGB(x,y))/Math.sqrt(3);
-            }
-        }
-        return variation/(im1.getWidth()*im1.getHeight());
-    }
-
-    /**
-     * Calculates the difference between two ARGB colours (BufferedImage.TYPE_INT_ARGB).
-     */
-    private static double compareARGB(int rgb1, int rgb2){
-        double r1 = ((rgb1 >> 16) & 0xFF)/255.0; double r2 = ((rgb2 >> 16) & 0xFF)/255.0;
-        double g1 = ((rgb1 >> 8) & 0xFF)/255.0;  double g2 = ((rgb2 >> 8) & 0xFF)/255.0;
-        double b1 = (rgb1 & 0xFF)/255.0;         double b2 = (rgb2 & 0xFF)/255.0;
-        double a1 = ((rgb1 >> 24) & 0xFF)/255.0; double a2 = ((rgb2 >> 24) & 0xFF)/255.0;
-        // if there is transparency, the alpha values will make difference smaller
-        return a1*a2*Math.sqrt((r1-r2)*(r1-r2) + (g1-g2)*(g1-g2) + (b1-b2)*(b1-b2));
-    }
-
-    /**
-     * Finds the a region in one image that best matches another, smaller, image.
+     * finds a region of im1 that matches with im2, if no matches are found then returns 0,0
+     * @param im1 image one that will be compared
+     * @param im2 Sub image, compares to image 1
+     * @return returns a coordinate x and y on match or 0,0 if it can not find a match
      */
     int[] findSubImage(BufferedImage im1, BufferedImage im2) {
         int w1 = im1.getWidth();
@@ -49,6 +26,13 @@ public class Compare {
         // return best location
         return new int[] {(int) temp[0], (int) temp[1]};
     }
+
+    /**
+     * same as findSubImage except that it returns a double instead of int coordinates
+     * @param im1 Image One that will be compared
+     * @param im2 Sub Image, the thing it will look for
+     * @return a % value of matching
+     */
     double findSubImageDouble(BufferedImage im1, BufferedImage im2) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
@@ -90,6 +74,31 @@ public class Compare {
             }
         }
         return new double[] {bestX,bestY,lowestDiff};
+    }
+    /**
+     * Determines how different two identically sized regions are.
+     */
+    private static double compareImages(BufferedImage im1, BufferedImage im2){
+        assert(im1.getHeight() == im2.getHeight() && im1.getWidth() == im2.getWidth());
+        double variation = 0.0;
+        for(int x = 0;x < im1.getWidth();x++){
+            for(int y = 0;y < im1.getHeight();y++){
+                variation += compareARGB(im1.getRGB(x,y),im2.getRGB(x,y))/Math.sqrt(3);
+            }
+        }
+        return variation/(im1.getWidth()*im1.getHeight());
+    }
+
+    /**
+     * Calculates the difference between two ARGB colours (BufferedImage.TYPE_INT_ARGB).
+     */
+    private static double compareARGB(int rgb1, int rgb2){
+        double r1 = ((rgb1 >> 16) & 0xFF)/255.0; double r2 = ((rgb2 >> 16) & 0xFF)/255.0;
+        double g1 = ((rgb1 >> 8) & 0xFF)/255.0;  double g2 = ((rgb2 >> 8) & 0xFF)/255.0;
+        double b1 = (rgb1 & 0xFF)/255.0;         double b2 = (rgb2 & 0xFF)/255.0;
+        double a1 = ((rgb1 >> 24) & 0xFF)/255.0; double a2 = ((rgb2 >> 24) & 0xFF)/255.0;
+        // if there is transparency, the alpha values will make difference smaller
+        return a1*a2*Math.sqrt((r1-r2)*(r1-r2) + (g1-g2)*(g1-g2) + (b1-b2)*(b1-b2));
     }
 
 }
