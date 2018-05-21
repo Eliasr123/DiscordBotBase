@@ -16,11 +16,5 @@ public class TestingGround {
         }
 
 
-        //imageLogic.compareImageTest(new File("ImagesDownloaded/staticrefser.png"),new File("ImagesDownloaded/ref4.png"));
-
-    }
-    private void runTest() {
-
-
     }
 }
