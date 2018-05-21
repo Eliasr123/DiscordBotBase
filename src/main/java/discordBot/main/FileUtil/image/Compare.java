@@ -10,7 +10,7 @@ public class Compare {
      * @param im2 Sub image, compares to image 1
      * @return returns a coordinate x and y on match or 0,0 if it can not find a match
      */
-    int[] findSubImage(BufferedImage im1, BufferedImage im2,double matchLimit) {
+    public int[] findSubImage(BufferedImage im1, BufferedImage im2,double matchLimit) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
         int w2 = im2.getWidth();
@@ -72,7 +72,7 @@ public class Compare {
     /**
      * Determines how different two identically sized regions are.
      */
-    private static double compareImages(BufferedImage im1, BufferedImage im2){
+    private double compareImages(BufferedImage im1, BufferedImage im2){
         assert(im1.getHeight() == im2.getHeight() && im1.getWidth() == im2.getWidth());
         double variation = 0.0;
         for(int x = 0;x < im1.getWidth();x++){
@@ -86,7 +86,7 @@ public class Compare {
     /**
      * Calculates the difference between two ARGB colours (BufferedImage.TYPE_INT_ARGB).
      */
-    private static double compareARGB(int rgb1, int rgb2){
+    private double compareARGB(int rgb1, int rgb2){
         double r1 = ((rgb1 >> 16) & 0xFF)/255.0; double r2 = ((rgb2 >> 16) & 0xFF)/255.0;
         double g1 = ((rgb1 >> 8) & 0xFF)/255.0;  double g2 = ((rgb2 >> 8) & 0xFF)/255.0;
         double b1 = (rgb1 & 0xFF)/255.0;         double b2 = (rgb2 & 0xFF)/255.0;
