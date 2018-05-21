@@ -2,6 +2,7 @@ package discordBot.main.FileUtil;
 
 import net.dv8tion.jda.core.entities.Message;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Attachments {
@@ -21,6 +22,14 @@ public class Attachments {
         }
         return null;
     }
+
+    /**
+     *
+     * @param message inptted message that might contain attachment
+     * @param filterImages decides if function will only save images
+     * @param file file path/name that the function will save file as.
+     * @return returns the filepath that the file was saved to.
+     */
     public File downloadChangeName(Message message, boolean filterImages, File file) {
         for(Message.Attachment attachment : message.getAttachments()) {
             if(!filterImages || attachment.isImage()) {
