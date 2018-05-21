@@ -8,55 +8,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class Compare {
-
-    /**
-     * Finds the a region in one image that best matches another, smaller, image.
-     */
-    public static double compareTwoImagesDouble(BufferedImage imageOne, BufferedImage imageTwo){
-        int w1 = imageOne.getWidth(); int height = imageOne.getHeight();
-        int w2 = imageTwo.getWidth(); int h2 = imageTwo.getHeight();
-        assert(w2 <= w1 && h2 <= height);
-        // will keep track of best position found
-        double lowestDiff = 0;
-        // brute-force search through whole image (slow...)
-        for(int x = 0;x < w1-w2;x++){
-            for(int y = 0;y < height-h2;y++){
-                double comp = compareImages(imageOne.getSubimage(x,y,w2,h2),imageTwo);
-                if(comp < lowestDiff){
-                    lowestDiff = comp;
-                }
-            }
-        }
-        if (w1-w2 == 0 && height-h2 == 0) {
-            return 100;
-        }
-        // return best location
-        return lowestDiff;
-    }
-    /**
-     * Finds the a region in one image that best matches another, smaller, image.
-     */
-    public static int[] compareTwoImages(BufferedImage im1, BufferedImage im2){
-        int w1 = im1.getWidth(); int h1 = im1.getHeight();
-        int w2 = im2.getWidth(); int h2 = im2.getHeight();
-        assert(w2 <= w1 && h2 <= h1);
-        // will keep track of best position found
-        int bestX = 0; int bestY = 0; double lowestDiff = Double.POSITIVE_INFINITY;
-        // brute-force search through whole image (slow...)
-        for(int x = 0;x < w1-w2;x++) {
-            for (int y = 0; y < h1 - h2; y++) {
-                double comp = compareImages(im1.getSubimage(x, y, w2, h2), im2);
-                if (comp < lowestDiff) {
-                    bestX = x;
-                    bestY = y;
-                    lowestDiff = comp;
-                }
-            }
-        }
-        // return best location
-        return new int[]{bestX,bestY};
-    }
-
     /**
      * Determines how different two identically sized regions are.
      */
@@ -92,10 +43,34 @@ public class Compare {
         int w2 = im2.getWidth();
         int h2 = im2.getHeight();
         assert (w2 <= w1 && h2 <= h1);
+        double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2);
+        // output similarity measure from 0 to 1, with 0 being identical
+        //System.out.println(lowestDiff);
+        // return best location
+        return new int[] {(int) temp[0], (int) temp[1]};
+    }
+    double findSubImageDouble(BufferedImage im1, BufferedImage im2) {
+        int w1 = im1.getWidth();
+        int h1 = im1.getHeight();
+        int w2 = im2.getWidth();
+        int h2 = im2.getHeight();
+        assert (w2 <= w1 && h2 <= h1);
+        // will keep track of best position found
+        double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2);
+        // output similarity measure from 0 to 1, with 0 being identical
+        //System.out.println(lowestDiff);
+        // return best location
+        if (w1-w2 == 0 && h1-h2 == 0) {
+            return 100;
+        }
+        return temp[2];
+    }
+    private double[] subImageLoop(int w1,int w2,int h1,int h2,BufferedImage im1,BufferedImage im2) {
         // will keep track of best position found
         int bestX = 0;
         int bestY = 0;
-        double lowestDiff = Double.POSITIVE_INFINITY;
+        double lowestDiff =0;
+
         // brute-force search through whole image (slow...)
         outerLoop:
         for (int x = 0; x < w1 - w2; x++) {
@@ -114,10 +89,7 @@ public class Compare {
                 }
             }
         }
-        // output similarity measure from 0 to 1, with 0 being identical
-        //System.out.println(lowestDiff);
-        // return best location
-        return new int[] { bestX, bestY };
+        return new double[] {bestX,bestY,lowestDiff};
     }
 
 }
