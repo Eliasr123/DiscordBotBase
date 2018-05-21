@@ -38,16 +38,17 @@ public class ImageLogic {
     }
 
     private void checkMatches(Boolean[] output, BufferedImage[] refs, BufferedImage[] subImages,Double matchLimit) {
-        for (int i=0; i< output.length;i++) {
+        for (int i=0; i < output.length;i++) {
             double temp = compare.findSubImageDouble(refs[i],subImages[i],matchLimit);
-            if (temp < matchLimit) {
+            /*if (temp < matchLimit) {
                 System.out.println("match % "+temp);
                 output[i] = true;
                 System.out.println("Match at "+i);
             }
             else {
                 System.out.println("No Match at " +i);
-            }
+            }*/
+            System.out.println(temp);
 
         }
     }
