@@ -29,16 +29,6 @@ public class ImageLogic {
         objChannel.sendMessage("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber))).queue();
         objChannel.sendMessage("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%").queue();
     }
-    public void compareImageTest(File filePath,File filePath1) {
-        BufferedImage ref = fileManager.load(filePath);
-        BufferedImage saber = fileManager.load(filePath1);
-        //BufferedImage[] refs = loadCompareRefs();
-
-
-        System.out.println("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber)));
-        //System.out.println("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%");
-
-    }
     private BufferedImage[] loadCompareRefs() {
         BufferedImage[] imageArray = new BufferedImage[5];
         for (int i = 0; i < imageArray.length;i++) {
@@ -72,7 +62,6 @@ public class ImageLogic {
                         ImageIO.write(subImage, "png", new File(String.format("Images/Resources/Output/ref%s.png", refNumber)));
                         refNumber++;
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     counter = -1;
