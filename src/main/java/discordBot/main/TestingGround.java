@@ -14,9 +14,10 @@ public class TestingGround {
     private static Compare compare = new Compare();
     private static FileManager fileManager = new FileManager();
     public static void main(String[] args) {
-        BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Refs/ref2.png"));
-        BufferedImage tradeImg = fileManager.load(new File("Images/Downloaded/Input/ref2.png"));
-        //imageLogic.compareImageTest();
-        compare.findSubImage(inputImg,tradeImg,0.01);
+        //BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Refs/ref2.png"));
+        //BufferedImage tradeImg = fileManager.load(new File("Images/Downloaded/Input/ref2.png"));
+        imageLogic.compareImageTest();
+
+        //System.out.println(compare.findSubImageDouble(tradeImg,inputImg,0.01));
     }
 }
