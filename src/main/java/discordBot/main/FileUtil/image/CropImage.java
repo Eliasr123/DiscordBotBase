@@ -45,9 +45,6 @@ public class CropImage {
                 }
             }
         }
-
-
-
-        // write the subimages to disk, this should create 42 images.
+        // write the subimages to disk, this should create 5 images.
     }
 }
