@@ -86,7 +86,7 @@ public class Compare {
     /**
      * Finds the a region in one image that best matches another, smaller, image.
      */
-    public int[] findSubImage(BufferedImage im1, BufferedImage im2) {
+    int[] findSubImage(BufferedImage im1, BufferedImage im2) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
         int w2 = im2.getWidth();
