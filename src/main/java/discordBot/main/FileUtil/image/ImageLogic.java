@@ -40,15 +40,15 @@ public class ImageLogic {
 
     }
     private BufferedImage[] loadCompareRefs() {
-        BufferedImage[] imageArray = new BufferedImage[8];
+        BufferedImage[] imageArray = new BufferedImage[5];
         for (int i = 0; i < imageArray.length;i++) {
-            imageArray[i] = fileManager.load(new File("ImagesDownloaded/Refs/item"+i+".png"));
+            imageArray[i] = fileManager.load(new File("Images/Downloaded/Refs/ref"+i+".png"));
         }
         return imageArray;
     }
     public void createSubImages(BufferedImage bigImage) {
         // use the Border.png to find the first border.
-        BufferedImage border = fileManager.load(new File("Resources/Border/Border.png"));
+        BufferedImage border = fileManager.load(new File("Images/Resources/Border/Border.png"));
         int[] coordinates = Compare.findSubimage(bigImage, border);
         System.out.println(coordinates[0] + " - " + coordinates[1]);
 
@@ -61,6 +61,7 @@ public class ImageLogic {
         // after the first image, there are 6 colums to the right, at 58 pixels difference
         // after the 6th image, there is a gap of 90 before the above statement is repeated.
         int counter = 0;
+        int refNumber = 0;
         for(int rows = 0; rows < 3; rows++) {
             for(int columns = 0; columns < 12; columns++) {
                 counter++;
@@ -68,7 +69,8 @@ public class ImageLogic {
 
                 if (counter == 5) {
                     try {
-                        ImageIO.write(subImage, "png", new File(String.format("resources/Output/row%scolum%s.png", rows, columns)));
+                        ImageIO.write(subImage, "png", new File(String.format("Images/Resources/Output/ref%s.png", refNumber)));
+                        refNumber++;
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
