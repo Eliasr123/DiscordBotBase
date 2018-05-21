@@ -38,7 +38,7 @@ public class Compare {
         // will keep track of best position found
         double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2,matchLimit);
         // output similarity measure from 0 to 1, with 0 being identical
-        System.out.println(temp[2]);
+        //System.out.println(temp[2]);
         // return best location
 
         return temp[2];
