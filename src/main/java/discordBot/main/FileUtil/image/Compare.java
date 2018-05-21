@@ -29,16 +29,20 @@ public class Compare {
      * @param im2 Sub Image, the thing it will look for
      * @return a % value of matching
      */
-    double findSubImageDouble(BufferedImage im1, BufferedImage im2,double matchLimit) {
+    public double findSubImageDouble(BufferedImage im1, BufferedImage im2,double matchLimit) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
         int w2 = im2.getWidth();
         int h2 = im2.getHeight();
         assert (w2 <= w1 && h2 <= h1);
         // will keep track of best position found
+
         double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2,matchLimit);
+        if (w1-w2 == 0 && h1-h2 == 0 && temp[2] == Double.POSITIVE_INFINITY) {
+            return 0.0;
+        }
         // output similarity measure from 0 to 1, with 0 being identical
-        //System.out.println(temp[2]);
+
         // return best location
 
         return temp[2];
@@ -58,10 +62,9 @@ public class Compare {
                     bestX = x;
                     bestY = y;
                     lowestDiff = comp;
-
                     if(lowestDiff < matchLimit)
                     {
-                        System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
+                        //System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
                         break outerLoop;
                     }
                 }
