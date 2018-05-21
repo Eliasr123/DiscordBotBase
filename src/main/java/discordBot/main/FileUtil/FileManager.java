@@ -12,8 +12,8 @@ public class FileManager {
            return ImageIO.read(filename);
         } catch (IOException e) {
             System.out.println("Image Load Failed!");
+            return null;
         }
-        return null;
     }
 
     public BufferedImage[] loadRefs(File filePath) {
