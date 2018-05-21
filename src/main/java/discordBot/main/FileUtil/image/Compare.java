@@ -18,7 +18,7 @@ public class Compare {
         assert (w2 <= w1 && h2 <= h1);
         double[] temp = subImageLoop(w1,w2,h1,h2,im1,im2);
         // output similarity measure from 0 to 1, with 0 being identical
-        //System.out.println(lowestDiff);
+        System.out.println(temp[2]);
         // return best location
         return new int[] {(int) temp[0], (int) temp[1]};
     }
