@@ -33,7 +33,7 @@ public class CropImage {
                 if (counter == 5) {
                     try {
                         System.out.println("img ref"+refNumber+" saved!");
-                        ImageIO.write(subImage, "png", new File(String.format("Images/Resources/Output/ref%s.png", refNumber)));
+                        ImageIO.write(subImage, "png", new File(String.format("Images/Downloaded/Input/ref%s.png", refNumber)));
                         refNumber++;
                     } catch (IOException e) {
                         e.printStackTrace();
