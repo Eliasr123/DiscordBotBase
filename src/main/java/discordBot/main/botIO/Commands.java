@@ -45,10 +45,7 @@ class Commands {
         }
 
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare")) {
-         //   imageLogic.compareImage(objChannel,objMsg,attachments.downloadRetainName(objMsg,true,"ImagesDownloaded/"));
-        }
-        if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare1")) {
-
+         imageLogic.compareImage(objChannel,objMsg);
         }
     }
 
