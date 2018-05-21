@@ -13,18 +13,15 @@ public class ImageLogic {
     private static CropImage cropImage = new CropImage();
     private Attachments attachments = new Attachments();
     private Compare compare = new Compare();
-    /**
-     *
-     * @param objChannel
-     */
+
     public void compareImage(MessageChannel objChannel,Message message) {
         Boolean[] output = new Boolean[5];
         BufferedImage[] refs = fileManager.loadRefs(new File("Images/Downloaded/Refs/ref"));
         BufferedImage[] subImages = new BufferedImage[5];
         if (trySavingAttachment(objChannel,message)) {
-             BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/inputRef.png"));
+             BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Input/inputRef.png"));
              cropImage.createSubImages(inputImg);
-             subImages = fileManager.loadRefs(new File("Images/Resources/Output/ref"));
+             subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
          }
         checkMatches(output, refs, subImages);
     }
@@ -35,7 +32,7 @@ public class ImageLogic {
 
         BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Input/inputRef.png"));
         cropImage.createSubImages(inputImg);
-        subImages = fileManager.loadRefs(new File("Images/Resources/Output/ref"));
+        subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
 
         checkMatches(output, refs, subImages);
     }
