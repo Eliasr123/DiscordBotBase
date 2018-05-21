@@ -22,7 +22,7 @@ public class ImageLogic {
              cropImage.createSubImages(inputImg);
              subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
          }
-        Boolean[] output = checkMatches(new Boolean[5],subImages,refs,0.05);
+        boolean[] output = checkMatches(new boolean[5],subImages,refs,0.05);
     }
     public void compareImageTest() {
         BufferedImage[] refs = fileManager.loadRefs(new File("Images/Downloaded/Refs/ref"));
@@ -31,7 +31,7 @@ public class ImageLogic {
         BufferedImage inputImg = fileManager.load(new File("Images/Downloaded/Input/inputRef.png"));
         cropImage.createSubImages(inputImg);
         subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
-        Boolean[] output = checkMatches(new Boolean[5],subImages,refs,0.05);
+        boolean[] output = checkMatches(new boolean[5],subImages,refs,0.05);
         for (int i = 0; i < 3; i++) {
             if (output[i]) {
                 System.out.println("boolean " + i + " ist true!");
@@ -39,7 +39,7 @@ public class ImageLogic {
         }
     }
 
-    private Boolean[] checkMatches(Boolean[] output, BufferedImage[] subImages, BufferedImage[] refs, Double matchLimit) {
+    private boolean[] checkMatches(boolean[] output, BufferedImage[] subImages, BufferedImage[] refs, Double matchLimit) {
         for (int i=0; i < output.length;i++) {
             double temp = compare.findSubImageDouble(subImages[i],refs[i],matchLimit);
             if (temp < matchLimit) {
