@@ -12,8 +12,8 @@ import java.io.File;
 import java.util.Arrays;
 
 class Commands {
-    ImageLogic imageLogic = new ImageLogic();
-    Attachments attachments = new Attachments();
+    private ImageLogic imageLogic = new ImageLogic();
+    private Attachments attachments = new Attachments();
 
     private String preFix = ".";
     void serverAdmin(User user, Message objMsg, MessageChannel objChannel) {
