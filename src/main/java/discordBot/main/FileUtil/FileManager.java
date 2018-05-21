@@ -19,7 +19,7 @@ public class FileManager {
     public BufferedImage[] loadRefs(File file) {
         BufferedImage[] imageArray = new BufferedImage[5];
         for (int i = 0; i < imageArray.length;i++) {
-            imageArray[i] = load(new File("ref"+i+".png"));
+            imageArray[i] = load(new File(file+"ref"+i+".png"));
         }
         return imageArray;
     }
