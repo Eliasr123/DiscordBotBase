@@ -86,7 +86,7 @@ public class Compare {
     /**
      * Finds the a region in one image that best matches another, smaller, image.
      */
-    public static int[] findSubimage(BufferedImage im1, BufferedImage im2) {
+    public int[] findSubimage(BufferedImage im1, BufferedImage im2) {
         int w1 = im1.getWidth();
         int h1 = im1.getHeight();
         int w2 = im2.getWidth();
@@ -108,14 +108,14 @@ public class Compare {
 
                     if(lowestDiff < 0.01)
                     {
-                        System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
+                        //System.out.println(String.format("Best match found at %s - %s with a similarity of %s", bestX, bestY, lowestDiff));
                         break outerLoop;
                     }
                 }
             }
         }
         // output similarity measure from 0 to 1, with 0 being identical
-        System.out.println(lowestDiff);
+        //System.out.println(lowestDiff);
         // return best location
         return new int[] { bestX, bestY };
     }
