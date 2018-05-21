@@ -13,7 +13,6 @@ import java.util.Arrays;
 
 class Commands {
     private ImageLogic imageLogic = new ImageLogic();
-    private Attachments attachments = new Attachments();
 
     private String preFix = ".";
     void serverAdmin(User user, Message objMsg, MessageChannel objChannel) {
@@ -34,7 +33,7 @@ class Commands {
 
         }
       /*  if (objMsg.getContentRaw().equalsIgnoreCase(preFix + "image")) {
-                boolean b = Attachments.download(objMsg, true,"ImagesDownloaded/");
+                boolean b = Attachments.downloadRetainName(objMsg, true,"ImagesDownloaded/");
                 if (b) {
                     objChannel.sendMessage("Saving worked! file has been saved!").queue();
                 } else {
@@ -46,7 +45,7 @@ class Commands {
         }
 
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare")) {
-            imageLogic.compareImage(objChannel,objMsg,attachments.download(objMsg,true,"ImagesDownloaded/"));
+         //   imageLogic.compareImage(objChannel,objMsg,attachments.downloadRetainName(objMsg,true,"ImagesDownloaded/"));
         }
         if (objMsg.getContentRaw().equalsIgnoreCase(preFix+"testCompare1")) {
 
