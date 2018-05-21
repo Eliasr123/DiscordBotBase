@@ -23,7 +23,7 @@ public class ImageLogic {
              cropImage.createSubImages(inputImg);
              subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
          }
-        checkMatches(output, refs, subImages,0.01);
+        checkMatches(output,subImages,refs,0.01);
     }
     public void compareImageTest() {
         Boolean[] output = new Boolean[5];
@@ -34,22 +34,20 @@ public class ImageLogic {
         cropImage.createSubImages(inputImg);
         subImages = fileManager.loadRefs(new File("Images/Downloaded/Input/ref"));
 
-        checkMatches(output, refs, subImages,0.01);
+        checkMatches(output,subImages, refs,0.05);
     }
 
-    private void checkMatches(Boolean[] output, BufferedImage[] refs, BufferedImage[] subImages,Double matchLimit) {
+    private void checkMatches(Boolean[] output, BufferedImage[] subImages, BufferedImage[] refs,Double matchLimit) {
         for (int i=0; i < output.length;i++) {
-            double temp = compare.findSubImageDouble(refs[i],subImages[i],matchLimit);
-            /*if (temp < matchLimit) {
+            double temp = compare.findSubImageDouble(subImages[i],refs[i],matchLimit);
+            if (temp < matchLimit) {
                 System.out.println("match % "+temp);
                 output[i] = true;
                 System.out.println("Match at "+i);
             }
             else {
                 System.out.println("No Match at " +i);
-            }*/
-            System.out.println(temp);
-
+            }
         }
     }
 
