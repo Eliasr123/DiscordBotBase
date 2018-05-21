@@ -29,10 +29,10 @@ public class CropImage {
         for(int rows = 0; rows < 3; rows++) {
             for(int columns = 0; columns < 12; columns++) {
                 counter++;
-                BufferedImage subImage = bigImage.getSubimage(columns<6?coordinates[0]+(columns*58):coordinates[0]+32+(columns*58), coordinates[1]+(rows*100) ,48, 48);
-
+                BufferedImage subImage = bigImage.getSubimage(columns<6?coordinates[0]+(columns*58):coordinates[0]+32+(columns*58)-1, coordinates[1]+(rows*100) ,48, 48);
                 if (counter == 5) {
                     try {
+                        System.out.println("img ref"+refNumber+" saved!");
                         ImageIO.write(subImage, "png", new File(String.format("Images/Resources/Output/ref%s.png", refNumber)));
                         refNumber++;
                     } catch (IOException e) {
