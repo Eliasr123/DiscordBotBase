@@ -10,21 +10,19 @@ import java.util.Arrays;
 
 public class ImageLogic {
     public static FileManager fileManager = new FileManager();
+    private static CropImage cropImage = new CropImage();
 
     /**
      *
      * @param objChannel
      */
     public void compareImage(MessageChannel objChannel,Message message, File filePath) {
-        BufferedImage ref = fileManager.load(filePath);
-        BufferedImage saber = fileManager.load(filePath);
         BufferedImage[] refs = fileManager.loadRefs(new File("Images/Downloaded/Refs/"));
+        BufferedImage inputImg = null;
+        inputImg = ImageLogic.fileManager.load(new File("Images/Downloaded/StaticRef1.png"));
+        if (inputImg != null) {
+            cropImage.createSubImages(inputImg);
+        }
 
-
-        objChannel.sendMessage("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber))).queue();
-        objChannel.sendMessage("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%").queue();
-
-        objChannel.sendMessage("Match position " + Arrays.toString(Compare.compareTwoImages(ref,saber))).queue();
-        objChannel.sendMessage("Match " + Compare.compareTwoImagesDouble(ref,saber) + "%").queue();
     }
 }
