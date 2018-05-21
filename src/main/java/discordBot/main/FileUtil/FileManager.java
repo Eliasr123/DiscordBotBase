@@ -16,10 +16,10 @@ public class FileManager {
         return null;
     }
 
-    public BufferedImage[] loadRefs(File file) {
+    public BufferedImage[] loadRefs(File filePath) {
         BufferedImage[] imageArray = new BufferedImage[5];
         for (int i = 0; i < imageArray.length;i++) {
-            imageArray[i] = load(new File(file+"ref"+i+".png"));
+            imageArray[i] = load(new File(filePath.toString()+i+".png"));
         }
         return imageArray;
     }
