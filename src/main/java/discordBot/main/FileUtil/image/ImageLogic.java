@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class ImageLogic {
-    public static FileManager fileManager = new FileManager();
+    static FileManager fileManager = new FileManager();
     private static CropImage cropImage = new CropImage();
     private Attachments attachments = new Attachments();
     private Compare compare = new Compare();
@@ -39,9 +39,8 @@ public class ImageLogic {
 
     private void checkMatches(Boolean[] output, BufferedImage[] refs, BufferedImage[] subImages) {
         for (int i=0; i< output.length;i++) {
-            System.out.println("Comparing...");
             double temp = compare.findSubImageDouble(refs[i],subImages[i]);
-            if (temp >= 0.7) {
+            if (temp < 0.01) {
                 System.out.println("match % "+temp);
                 output[i] = true;
                 System.out.println("Match at "+i);
