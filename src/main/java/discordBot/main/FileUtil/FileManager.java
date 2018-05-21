@@ -15,4 +15,12 @@ public class FileManager {
         }
         return null;
     }
+
+    public BufferedImage[] loadCompareRefs(File file) {
+        BufferedImage[] imageArray = new BufferedImage[5];
+        for (int i = 0; i < imageArray.length;i++) {
+            imageArray[i] = load(new File("Images/Downloaded/Refs/ref"+i+".png"));
+        }
+        return imageArray;
+    }
 }
